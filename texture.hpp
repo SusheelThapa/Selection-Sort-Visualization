@@ -46,12 +46,10 @@ public:
     int getWidth();
     int getHeight();
 
-    void setValue(std::string value);
 
 private:
     // Variable where loaded Texture is stored
     SDL_Texture *mTexture;
-    std::string value;
 
     // Variable to store height and width of Texture
     int mWidth;

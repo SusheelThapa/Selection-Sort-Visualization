@@ -8,6 +8,7 @@ C++ standard header files
 -------------------------
 */
 #include <iostream>
+#include <string>
 
 /*
 -----------------

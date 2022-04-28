@@ -84,8 +84,3 @@ int Texture::getHeight()
 {
     return mHeight;
 }
-
-void Texture::setValue(std::string value)
-{
-    this->value = value;
-}

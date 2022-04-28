@@ -60,7 +60,7 @@ bool loadMedia()
     }
 
     /*Loads font*/
-    window_font = TTF_OpenFont("fonts/cascadia.ttf", 28);
+    window_font = TTF_OpenFont("fonts/cascadia.ttf", 16);
 
     if (window_font == NULL)
     {
@@ -68,16 +68,13 @@ bool loadMedia()
         return false;
     }
 
-    std::string input_value;
     /*Taking input from the user to sort*/
     for (int i = 0; i < TOTAL_BLOCK; i++)
     {
-        std::cout << "Element " << i + 1 << " : ";
-        std::cin >> input_value;
-
-        blocks[i].setValue(input_value);
-        blocks[i].loadFromRenderedText(input_value, {34, 24, 123, 255});
+        blocks[i].loadFromRenderedText(std::to_string(blocks_value[i]), {0, 0, 139, 255});
     }
+
+    visualizer_name.loadFromRenderedText("SELECTION SORT", {0, 0, 0, 255});
 
     return true;
 }
@@ -109,26 +106,114 @@ void close()
     SDL_Quit();
 }
 
-void selectionSort(int *arr, int size)
+void selectionSort()
 {
     int minimum, minimum_index, j;
+    Texture minimum_value_block_texture;
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < TOTAL_BLOCK; i++)
     {
+
         minimum_index = i;
         j = i + 1;
 
-        while (j < size)
+        while (j < TOTAL_BLOCK)
         {
-            if (arr[minimum_index] > arr[j])
+
+            if (blocks_value[minimum_index] > blocks_value[j])
             {
                 minimum_index = j;
             }
             j++;
         }
+        loadSelectionSortVisual(i, minimum_index);
 
-        minimum = arr[minimum_index];
-        arr[minimum_index] = arr[i];
-        arr[i] = minimum;
+        minimum = blocks_value[minimum_index];
+        blocks_value[minimum_index] = blocks_value[i];
+        blocks_value[i] = minimum;
+
+        minimum_value_block_texture = blocks[minimum_index];
+        blocks[minimum_index] = blocks[i];
+        blocks[i] = minimum_value_block_texture;
+
+        SDL_Delay(800);
+        // printArray();
     }
+    SDL_Delay(2000);
+    exit(0);
+}
+
+void printArray()
+{
+    for (int i = 0; i < TOTAL_BLOCK; i++)
+    {
+        std::cout << blocks_value[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+void loadSelectionSortVisual(int highlight_one, int highlight_two)
+{
+
+    std::cout << highlight_one << " " << highlight_two << std::endl;
+
+    SDL_SetRenderDrawColor(window_renderer, 150, 43, 104, 255);
+    SDL_RenderClear(window_renderer);
+
+    SDL_Rect visualize_name_renderQuad = {(SCREEN_WIDTH - (BLOCK_WIDTH)*5) / 2,
+                                          50,
+                                          (BLOCK_WIDTH)*5,
+                                          BLOCK_HEIGHT};
+    visualizer_name.render(0, 0, nullptr, &visualize_name_renderQuad);
+
+    SDL_SetRenderDrawColor(window_renderer, 150, 207, 104, 255);
+
+    SDL_Rect block_rectange = {(SCREEN_WIDTH - (BLOCK_WIDTH + 60) * 5) / 2,
+                               (SCREEN_HEIGHT - (40 + BLOCK_HEIGHT) * 3) / 2,
+                               (60 + BLOCK_WIDTH) * 5,
+                               (BLOCK_HEIGHT + 40) * 3};
+
+    SDL_RenderFillRect(window_renderer, &block_rectange);
+    SDL_Rect renderQuad;
+    renderQuad = {(SCREEN_WIDTH - BLOCK_WIDTH * 5) / 2,
+                  (SCREEN_HEIGHT - BLOCK_HEIGHT * 3) / 2,
+                  BLOCK_WIDTH - 60,
+                  BLOCK_HEIGHT};
+
+    for (int i = 0; i < 5; i++)
+    {
+        if (i == highlight_one || i == highlight_two)
+        {
+            std::cout << "1.The value of highlight is " << i << std::endl;
+
+            SDL_SetRenderDrawColor(window_renderer, 80, 200, 0, 255);
+            SDL_RenderFillRect(window_renderer, &renderQuad);
+        }
+        blocks[i].render(0, 0, nullptr, &renderQuad);
+
+        renderQuad.y += BLOCK_HEIGHT;
+        if (i + 5 == highlight_two || i + 5== highlight_one)
+        {
+            std::cout << "2.The value of highlight is " << i << std::endl;
+
+            SDL_SetRenderDrawColor(window_renderer, 80, 200, 0, 255);
+            SDL_RenderFillRect(window_renderer, &renderQuad);
+        }
+        blocks[i + 5].render(0, 0, nullptr, &renderQuad);
+
+        renderQuad.y += BLOCK_HEIGHT;
+        if (i + 10 == highlight_one || i + 10 == highlight_two)
+        {
+            std::cout << "3.The value of highlight is " << i << std::endl;
+
+            SDL_SetRenderDrawColor(window_renderer, 80, 200, 0, 255);
+            SDL_RenderFillRect(window_renderer, &renderQuad);
+        }
+        blocks[i + 10].render(0, 0, nullptr, &renderQuad);
+
+        renderQuad.x += BLOCK_WIDTH + 30;
+        renderQuad.y -= 2 * BLOCK_HEIGHT;
+    }
+
+    SDL_RenderPresent(window_renderer);
 }
