@@ -2,7 +2,6 @@
 
 bool initialize()
 {
-
     /*initialize function flag*/
     bool status = true;
 
@@ -68,12 +67,13 @@ bool loadMedia()
         return false;
     }
 
-    /*Taking input from the user to sort*/
+    /*Create Texture outof number defined in the global array*/
     for (int i = 0; i < TOTAL_BLOCK; i++)
     {
         blocks[i].loadFromRenderedText(std::to_string(blocks_value[i]), {0, 0, 139, 255});
     }
 
+    /*Texture that represent our visualization name*/
     visualizer_name.loadFromRenderedText("SELECTION SORT", {0, 0, 0, 255});
 
     return true;
@@ -108,6 +108,7 @@ void close()
 
 void selectionSort()
 {
+    /*The main selection sort algorihtm*/
     int minimum, minimum_index, j;
     Texture minimum_value_block_texture;
 
@@ -137,15 +138,16 @@ void selectionSort()
         blocks[i] = minimum_value_block_texture;
     }
     SDL_Delay(2000);
-    exit(0);
 }
 
 void loadSelectionSortVisual(int highlight_one, int highlight_two)
 {
 
+    /*First it clear the window wiht some color*/
     SDL_SetRenderDrawColor(window_renderer, 150, 43, 104, 255);
     SDL_RenderClear(window_renderer);
 
+    /*Display the visualizer name in the window*/
     SDL_Rect visualize_name_renderQuad = {(SCREEN_WIDTH - (BLOCK_WIDTH)*5) / 2,
                                           50,
                                           (BLOCK_WIDTH)*5,
@@ -159,6 +161,7 @@ void loadSelectionSortVisual(int highlight_one, int highlight_two)
                                (60 + BLOCK_WIDTH) * 5,
                                (BLOCK_HEIGHT + 40) * 3};
 
+    /*Create a rectange where all the number are shown*/
     SDL_RenderFillRect(window_renderer, &block_rectange);
     SDL_Rect renderQuad;
     renderQuad = {(SCREEN_WIDTH - BLOCK_WIDTH * 5) / 2,
@@ -166,11 +169,11 @@ void loadSelectionSortVisual(int highlight_one, int highlight_two)
                   BLOCK_WIDTH - 60,
                   BLOCK_HEIGHT};
 
+    /*Display the number in the rectangle in a organized manner*/
     for (int i = 0; i < 5; i++)
     {
         if (i == highlight_one || i == highlight_two)
         {
-
             SDL_SetRenderDrawColor(window_renderer, 80, 200, 0, 255);
             SDL_RenderFillRect(window_renderer, &renderQuad);
         }
@@ -197,13 +200,16 @@ void loadSelectionSortVisual(int highlight_one, int highlight_two)
         renderQuad.x += BLOCK_WIDTH + 30;
         renderQuad.y -= 2 * BLOCK_HEIGHT;
     }
+
+    /*Information about which number are we comparing*/
     comparision_info.loadFromRenderedText("Comparision of " + std::to_string(blocks_value[highlight_one]) + " and " + std::to_string(blocks_value[highlight_two]), {0, 255, 0, 255});
 
     SDL_Rect comparision_info_rectangle = {
-        (SCREEN_WIDTH - comparision_info.getWidth()-30) / 2,
+        (SCREEN_WIDTH - comparision_info.getWidth() - 30) / 2,
         800,
-        comparision_info.getWidth()+30, comparision_info.getHeight() +30};
+        comparision_info.getWidth() + 30, comparision_info.getHeight() + 30};
     comparision_info.render(0, 0, nullptr, &comparision_info_rectangle);
+
     SDL_Delay(800);
 
     SDL_RenderPresent(window_renderer);

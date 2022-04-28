@@ -8,12 +8,22 @@
 
 #include "texture.cpp"
 
+/*
+---------------------------------------------------
+All the constant that are required is declared here
+---------------------------------------------------
+*/
 const int SCREEN_WIDTH = 1500;
 const int SCREEN_HEIGHT = 1000;
 const int BLOCK_WIDTH = 140;
 const int BLOCK_HEIGHT = 160;
 const int TOTAL_BLOCK = 15;
 
+/*
+---------
+Variables
+---------
+*/
 SDL_Window *window;
 SDL_Event e;
 Texture visualizer_name;
@@ -29,9 +39,14 @@ SDL_Renderer *game_renderer;
 TTF_Font *game_font;
 #endif
 
-int blocks_value[TOTAL_BLOCK] = {90, 37, 29, 30, 29, 50, 69, 29, 10, 40, 50, 30, 2, 58, 30};
+int blocks_value[TOTAL_BLOCK] = {99,1,89,11,79,21,69,31,59,41,49,51,39,61,29};
 Texture blocks[TOTAL_BLOCK];
 
+/*
+------------------
+Helping Functions
+------------------
+*/
 /*Initialize the SDL*/
 bool initilaize();
 
@@ -45,6 +60,4 @@ void loadSelectionSortVisual(int, int);
 void close();
 
 /*The actual selection sort algorithm to sort the array*/
-void selectionSort(int *arr, int size);
-
-void printArray();
+void selectionSort();

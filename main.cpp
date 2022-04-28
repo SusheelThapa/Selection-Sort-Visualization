@@ -12,23 +12,13 @@ int main()
     {
         if (loadMedia())
         {
-            while (!quit)
-            {
-                while (SDL_PollEvent(&e) != 0)
-                {
-                    if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
-                    {
-                        quit = true;
-                    }
-                }
 
-                SDL_SetRenderDrawColor(window_renderer, 150, 43, 104, 255);
-                SDL_RenderClear(window_renderer);
+            SDL_SetRenderDrawColor(window_renderer, 150, 43, 104, 255);
+            SDL_RenderClear(window_renderer);
 
-                selectionSort();
+            selectionSort();
 
-                SDL_RenderPresent(window_renderer);
-            }
+            SDL_RenderPresent(window_renderer);
         }
     }
     return 0;
