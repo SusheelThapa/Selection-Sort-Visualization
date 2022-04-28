@@ -17,6 +17,7 @@ const int TOTAL_BLOCK = 15;
 SDL_Window *window;
 SDL_Event e;
 Texture visualizer_name;
+Texture comparision_info;
 
 #if !defined(RENDERER_EXIST)
 #define GAME_RENDERER_EXIST 1

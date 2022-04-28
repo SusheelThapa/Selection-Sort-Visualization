@@ -135,27 +135,13 @@ void selectionSort()
         minimum_value_block_texture = blocks[minimum_index];
         blocks[minimum_index] = blocks[i];
         blocks[i] = minimum_value_block_texture;
-
-        SDL_Delay(800);
-        // printArray();
     }
     SDL_Delay(2000);
     exit(0);
 }
 
-void printArray()
-{
-    for (int i = 0; i < TOTAL_BLOCK; i++)
-    {
-        std::cout << blocks_value[i] << " ";
-    }
-    std::cout << std::endl;
-}
-
 void loadSelectionSortVisual(int highlight_one, int highlight_two)
 {
-
-    std::cout << highlight_one << " " << highlight_two << std::endl;
 
     SDL_SetRenderDrawColor(window_renderer, 150, 43, 104, 255);
     SDL_RenderClear(window_renderer);
@@ -184,7 +170,6 @@ void loadSelectionSortVisual(int highlight_one, int highlight_two)
     {
         if (i == highlight_one || i == highlight_two)
         {
-            std::cout << "1.The value of highlight is " << i << std::endl;
 
             SDL_SetRenderDrawColor(window_renderer, 80, 200, 0, 255);
             SDL_RenderFillRect(window_renderer, &renderQuad);
@@ -192,9 +177,8 @@ void loadSelectionSortVisual(int highlight_one, int highlight_two)
         blocks[i].render(0, 0, nullptr, &renderQuad);
 
         renderQuad.y += BLOCK_HEIGHT;
-        if (i + 5 == highlight_two || i + 5== highlight_one)
+        if (i + 5 == highlight_two || i + 5 == highlight_one)
         {
-            std::cout << "2.The value of highlight is " << i << std::endl;
 
             SDL_SetRenderDrawColor(window_renderer, 80, 200, 0, 255);
             SDL_RenderFillRect(window_renderer, &renderQuad);
@@ -204,7 +188,6 @@ void loadSelectionSortVisual(int highlight_one, int highlight_two)
         renderQuad.y += BLOCK_HEIGHT;
         if (i + 10 == highlight_one || i + 10 == highlight_two)
         {
-            std::cout << "3.The value of highlight is " << i << std::endl;
 
             SDL_SetRenderDrawColor(window_renderer, 80, 200, 0, 255);
             SDL_RenderFillRect(window_renderer, &renderQuad);
@@ -214,6 +197,14 @@ void loadSelectionSortVisual(int highlight_one, int highlight_two)
         renderQuad.x += BLOCK_WIDTH + 30;
         renderQuad.y -= 2 * BLOCK_HEIGHT;
     }
+    comparision_info.loadFromRenderedText("Comparision of " + std::to_string(blocks_value[highlight_one]) + " and " + std::to_string(blocks_value[highlight_two]), {0, 255, 0, 255});
+
+    SDL_Rect comparision_info_rectangle = {
+        (SCREEN_WIDTH - comparision_info.getWidth()-30) / 2,
+        800,
+        comparision_info.getWidth()+30, comparision_info.getHeight() +30};
+    comparision_info.render(0, 0, nullptr, &comparision_info_rectangle);
+    SDL_Delay(800);
 
     SDL_RenderPresent(window_renderer);
 }
