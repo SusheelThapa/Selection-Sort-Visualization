@@ -1,18 +1,35 @@
 #pragma once
 
-#if !defined(VARIABLE_INCLUDED)
-
-#include "variables.hpp"
-
-#endif
-
 #if !defined(HEADER_INCLUDED)
 
 #include "headers.hpp"
 
 #endif
 
-/*Initializa the SDL*/
+#include "texture.cpp"
+
+const int SCREEN_WIDTH = 1000;
+const int SCREEN_HEIGHT = 800;
+const int BLOCK_WIDTH = 150;
+const int BLOCK_HEIGHT = 150;
+const int TOTAL_BLOCK = 6;
+
+SDL_Window *window;
+SDL_Event e;
+
+#if !defined(RENDERER_EXIST)
+#define GAME_RENDERER_EXIST 1
+SDL_Renderer *game_renderer;
+#endif
+
+#if !defined(FONT_EXIST)
+#define GAME_FONT_EXIST 1
+TTF_Font *game_font;
+#endif
+
+Texture blocks[TOTAL_BLOCK];
+
+/*Initialize the SDL*/
 bool initilaize();
 
 /*Load the required media*/

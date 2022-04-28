@@ -41,6 +41,7 @@ bool initialize()
 bool loadMedia()
 {
 
+    /*Create window*/
     window = SDL_CreateWindow("Selection Sort", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
     if (window == NULL)
@@ -49,6 +50,7 @@ bool loadMedia()
         return false;
     }
 
+    /*Create renderer from the window*/
     window_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     if (window_renderer == NULL)
@@ -57,12 +59,24 @@ bool loadMedia()
         return false;
     }
 
-    window_font = TTF_OpenFont("fonts/lazy.ttf", 28);
+    /*Loads font*/
+    window_font = TTF_OpenFont("fonts/cascadia.ttf", 28);
 
     if (window_font == NULL)
     {
         std::cout << "Unable to load fonts.\nTTF_Error:" << TTF_GetError() << std::endl;
         return false;
+    }
+
+    std::string input_value;
+    /*Taking input from the user to sort*/
+    for (int i = 0; i < TOTAL_BLOCK; i++)
+    {
+        std::cout << "Element " << i + 1 << " : ";
+        std::cin >> input_value;
+
+        blocks[i].setValue(input_value);
+        blocks[i].loadFromRenderedText(input_value, {34, 24, 123, 255});
     }
 
     return true;
@@ -93,4 +107,28 @@ void close()
 #endif
 
     SDL_Quit();
+}
+
+void selectionSort(int *arr, int size)
+{
+    int minimum, minimum_index, j;
+
+    for (int i = 0; i < size; i++)
+    {
+        minimum_index = i;
+        j = i + 1;
+
+        while (j < size)
+        {
+            if (arr[minimum_index] > arr[j])
+            {
+                minimum_index = j;
+            }
+            j++;
+        }
+
+        minimum = arr[minimum_index];
+        arr[minimum_index] = arr[i];
+        arr[i] = minimum;
+    }
 }
